@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualBasic;
 
@@ -11,6 +12,12 @@ builder.Services.AddSwaggerGen();
 // Using DI for inject the db 
 builder.Services.AddDbContext<HotelContext>(options => 
 options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Using JSONEnumConverter from integer to string
+builder.Services.AddControllers()
+.AddJsonOptions(options => {
+    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+});
 
 var app = builder.Build();
 
@@ -32,11 +39,22 @@ app.UseHttpsRedirection();
 
 // READ Clients 
 app.MapGet("/clients", async (HotelContext db) => {
-    var clients = await db.Clients.ToListAsync(); 
+    var clients = await db.Clients
+                    .ToListAsync(); 
 
     return clients; 
 })
 .WithName("GetClients")
+.WithOpenApi(); 
+
+// READ Rooms
+app.MapGet("/rooms", async (HotelContext db) => {
+    var rooms = await db.Rooms
+            .ToListAsync(); 
+
+    return rooms; 
+})
+.WithName("GetRooms")
 .WithOpenApi(); 
 
 

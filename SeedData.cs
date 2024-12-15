@@ -8,7 +8,7 @@ public class SeedData {
                 var room1 = new Room
                 {
                     RoomNumber = 101,
-                    RoomType = "Single",
+                    RoomType = RoomType.Single, // 0
                     NightPrice = 100.0f,  
                     IsAvailable = true
                 };
@@ -16,7 +16,7 @@ public class SeedData {
                 var room2 = new Room
                 {
                     RoomNumber = 102,
-                    RoomType = "Double",
+                    RoomType = RoomType.Double, // 1
                     NightPrice = 150.0f,  
                     IsAvailable = true
                 };
@@ -24,7 +24,7 @@ public class SeedData {
                 var room3 = new Room
                 {
                     RoomNumber = 201,
-                    RoomType = "Suite",
+                    RoomType = RoomType.Suite, 
                     NightPrice = 250.0f,  
                     IsAvailable = true
                 };
@@ -32,7 +32,7 @@ public class SeedData {
                 var room4 = new Room
                 {
                     RoomNumber = 202,
-                    RoomType = "Penthouse",
+                    RoomType = RoomType.Junior, 
                     NightPrice = 400.0f,  
                     IsAvailable = false  
                 };
