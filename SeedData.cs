@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 public class SeedData {
     public static void Initialize(IServiceProvider serviceProvider) {
         using (var context = new HotelContext(options: serviceProvider.GetRequiredService<DbContextOptions<HotelContext>>())) {
-            if(!context.Clients.Any() && !context.Bookings.Any() && !context.Rooms.Any()) {
+            if(!context.Clients.Any() || !context.Bookings.Any() || !context.Rooms.Any()) {
                 // Rooms
                 var room1 = new Room
                 {
@@ -45,7 +45,7 @@ public class SeedData {
                     Name = "John",
                     Surname = "Doe",
                     Email = "john.doe@example.com",
-                    PhoneNumber = "123-456-7890",
+                    PhoneNumber = new PhoneNumber("1", "1234567890"), 
                     Address = "123 Elm Street, Springfield, IL"
                 };
 
@@ -53,7 +53,7 @@ public class SeedData {
                     Name = "Jane",
                     Surname = "Smith",
                     Email = "jane.smith@example.com",
-                    PhoneNumber = "987-654-3210",
+                    PhoneNumber = new PhoneNumber("1", "9876543210"), 
                     Address = "456 Oak Avenue, Springfield, IL"
                 };
 
@@ -61,17 +61,17 @@ public class SeedData {
                     Name = "Michael",
                     Surname = "Johnson",
                     Email = "michael.johnson@example.com",
-                    PhoneNumber = "555-123-4567",
+                    PhoneNumber = new PhoneNumber("44", "5551234567"),
                     Address = "789 Pine Road, Springfield, IL"
-                }; 
+                };
 
                 var client4 = new Client{
                     Name = "Emily",
                     Surname = "Davis",
                     Email = "emily.davis@example.com",
-                    PhoneNumber = "555-987-6543",
+                    PhoneNumber = new PhoneNumber("61", "5559876543"),
                     Address = "101 Maple Lane, Springfield, IL"
-                }; 
+                };
 
                 // Adding clients to "Clients table"
                 context.Clients.AddRange(client1, client2, client3, client4);
