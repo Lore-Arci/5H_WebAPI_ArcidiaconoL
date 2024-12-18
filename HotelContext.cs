@@ -40,3 +40,5 @@ public class HotelContext : DbContext {
         base.OnModelCreating(modelBuilder);
     }
 }
+
+
