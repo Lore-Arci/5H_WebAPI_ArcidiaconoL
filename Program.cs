@@ -1,4 +1,5 @@
 using System.Reflection.Metadata.Ecma335;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualBasic;
@@ -118,17 +119,17 @@ app.MapPut("/bookings/{id:int}", async (int id, Booking booking, HotelContext db
 .WithName("PutBookingsModifyng")
 .WithOpenApi(); 
 
-// READ With record
+// READ record with DTO
 app.MapGet("/booking", async (HotelContext db) => {
     // Takings bookings with even id
     var bookings = await db.Bookings
                         .Include(b => b.Client)
                         .Include(b => b.Room)
-                        .Where(b => b.BookingId % 2 == 0)
+                        //.Where(b => b.BookingId % 2 == 0)
                         .ToListAsync(); 
     if(bookings is null) return Results.NotFound(); 
 
-    var vista = bookings.Select(b => new BookingInfo(
+    var vista = bookings.Select(b => new BookingInfoResume(
         CheckInDate: b.CheckInDate, 
         CheckOut: b.CheckOutDate, 
         ClientName: b.Client.Name, 
@@ -142,29 +143,67 @@ app.MapGet("/booking", async (HotelContext db) => {
 .WithName("GetRoomInfoResume")
 .WithOpenApi(); 
 
-// Creating Clients
-/*app.MapPost("/addClient", async (Client client, HotelContext db) => {
-    db.Clients.Add(client); 
-    await db.SaveChangesAsync(); 
-    return Results.Created($"clients/{client.ClientId}", client); 
-})
-.WithName("PostClientAdd")
-.WithOpenApi(); 
+// Creating Bookings and ROOM with DTO
+/*app.MapPost("/booking_room", async (BookingDataInsert bookingData, HotelContext db) => {
+    if(bookingData.Room == null || bookingData.Booking == null) return Results.BadRequest(); 
 
-// Creating Rooms
-app.MapPost("/addRoom", async (Room room, HotelContext db) => {
-    db.Rooms.Add(room); 
+    // Creating first the relation
+    bookingData.Booking.Room = bookingData.Room; 
+    bookingData.Room.Bookings.Add(bookingData.Booking);
+
+    // Adding the data to the db
+    await db.Bookings.AddAsync(bookingData.Booking); 
+    await db.Rooms.AddAsync(bookingData.Room); 
+
     await db.SaveChangesAsync(); 
-    return Results.Created($"rooms/{room.RoomId}", room); 
+
+    return Results.Created($"bookings/{bookingData.Booking.BookingId}", bookingData.Booking); 
 })
-.WithName("PostRoomAdd")
+.WithName("PostBookingAndRoom")
 .WithOpenApi(); 
 */
 
+// Middleware 1
+app.Use( async (context, next) => {
+    try{
+        await next(); 
+    } 
+    // Client error
+    catch (JsonException ex) {
+        context.Response.StatusCode = StatusCodes.Status400BadRequest; 
+        context.Response.ContentType = "application/json";
 
+        var errorResponse = new
+        {
+            Error = "Errore nel formato JSON",
+            Dettagli = ex.Message
+        };
 
+        await context.Response.WriteAsJsonAsync(errorResponse); 
+    }  
+    // Server error
+    catch (Exception ex) {
+       // Gestione di altri errori
+       context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+       context.Response.ContentType = "application/json";
+       var errorResponse = new
+       {
+           Error = "Errore interno del server",
+           Dettagli = ex.Message
+       };
+       await context.Response.WriteAsJsonAsync(errorResponse);
+   }
+
+}); 
+
+// Middleware 2 (terminal one)
 app.Run();
 
-record BookingInfo(DateTime CheckInDate, DateTime CheckOut, string ClientName, string ClientSurname, int RoomNumber, RoomType RoomType) {
+record BookingInfoResume(DateTime CheckInDate, DateTime CheckOut, string ClientName, string ClientSurname, int RoomNumber, RoomType RoomType) {
 
 }
+
+record BookingDataInsert(Booking Booking, Room Room) {  
+    
+}
+
