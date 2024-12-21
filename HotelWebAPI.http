@@ -1,6 +1,33 @@
 @HotelWebAPI_HostAddress = http://localhost:5035
 
-GET {{HotelWebAPI_HostAddress}}/weatherforecast/
+GET {{HotelWebAPI_HostAddress}}/bookings/
+Accept: application/json
+
+###
+
+GET {{HotelWebAPI_HostAddress}}/room/0
+Accept: application/json
+
+###
+
+DELETE {{HotelWebAPI_HostAddress}}/clients/6
+Accept: application/json
+
+###
+
+PUT {{HotelWebAPI_HostAddress}}/bookings/12
+Content-Type: application/json
+Accept: application/json
+
+{
+    "CheckInDate": "2024-12-18T00:00:20", 
+    "CheckOutDate": "2024-12-27T00:00:00", 
+    "TotalAmount": 20
+}
+
+###
+
+GET {{HotelWebAPI_HostAddress}}/booking/
 Accept: application/json
 
 ###

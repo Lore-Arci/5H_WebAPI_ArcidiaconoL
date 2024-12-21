@@ -39,29 +39,6 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-// READ Clients 
-/*
-app.MapGet("/clients", async (HotelContext db) => {
-    var clients = await db.Clients
-                    .ToListAsync(); 
-
-    return Results.Ok(clients); 
-})
-.WithName("GetClients")
-.WithOpenApi(); 
-
-// READ Rooms
-app.MapGet("/rooms", async (HotelContext db) => {
-    var rooms = await db.Rooms
-            .ToListAsync(); 
-
-    return Results.Ok(rooms); 
-})
-.WithName("GetRooms")
-.WithOpenApi(); 
-*/
-
-
 // READ Bookings
 app.MapGet("/bookings", async (HotelContext db) => {
     var bookings = await db.Bookings
@@ -103,8 +80,7 @@ app.MapDelete("/clients/{id:int}", async (int id, HotelContext db) => {
 .WithOpenApi(); 
 
 
-// Modifying Room
-
+// Modifying Booking
 app.MapPut("/bookings/{id:int}", async (int id, Booking booking, HotelContext db) => {
     var bookingReturned = await db.Bookings.FindAsync(id); 
     if(bookingReturned is null) return Results.NotFound(); 
@@ -144,20 +120,31 @@ app.MapGet("/booking", async (HotelContext db) => {
 .WithOpenApi(); 
 
 // Creating Bookings and ROOM with DTO
-/*app.MapPost("/booking_room", async (BookingDataInsert bookingData, HotelContext db) => {
-    if(bookingData.Room == null || bookingData.Booking == null) return Results.BadRequest(); 
+/*
+app.MapPost("/booking_room", async (CreateRoomAndBooking createRoomAndBooking, HotelContext db) => {
+    // Room that will be added to the booking
+    try {
+        var room = new Room{
+            RoomNumber = createRoomAndBooking.RoomNumber, 
+            RoomType = createRoomAndBooking.RoomType, 
+            NightPrice = createRoomAndBooking.NightPrice, 
+            IsAvailable = createRoomAndBooking.IsAvailable
+        };
+    
+        var booking = new Booking{
+            CheckInDate = createRoomAndBooking.CheckInDate, 
+            CheckOutDate = createRoomAndBooking.CheckOutDate,
+            // Total amount eaquals to ckeckin - checkuot dates (in days), * nightprice
+            TotalAmount = (createRoomAndBooking.CheckOutDate - createRoomAndBooking.CheckOutDate).Days * createRoomAndBooking.NightPrice,
+            Room = room
+        };
 
-    // Creating first the relation
-    bookingData.Booking.Room = bookingData.Room; 
-    bookingData.Room.Bookings.Add(bookingData.Booking);
-
-    // Adding the data to the db
-    await db.Bookings.AddAsync(bookingData.Booking); 
-    await db.Rooms.AddAsync(bookingData.Room); 
-
-    await db.SaveChangesAsync(); 
-
-    return Results.Created($"bookings/{bookingData.Booking.BookingId}", bookingData.Booking); 
+        db.Bookings.Add(booking); 
+        await db.SaveChangesAsync(); 
+        return Results.Created($"/booking/{booking.BookingId}", booking); 
+    } catch (Exception ex) {
+        return Results.BadRequest(new { error = ex.Message });
+    }
 })
 .WithName("PostBookingAndRoom")
 .WithOpenApi(); 
@@ -175,8 +162,8 @@ app.Use( async (context, next) => {
 
         var errorResponse = new
         {
-            Error = "Errore nel formato JSON",
-            Dettagli = ex.Message
+            Error = "JSON format error",
+            Details = ex.Message
         };
 
         await context.Response.WriteAsJsonAsync(errorResponse); 
@@ -188,8 +175,8 @@ app.Use( async (context, next) => {
        context.Response.ContentType = "application/json";
        var errorResponse = new
        {
-           Error = "Errore interno del server",
-           Dettagli = ex.Message
+           Error = "Server internal error",
+           Details = ex.Message
        };
        await context.Response.WriteAsJsonAsync(errorResponse);
    }
@@ -202,8 +189,8 @@ app.Run();
 record BookingInfoResume(DateTime CheckInDate, DateTime CheckOut, string ClientName, string ClientSurname, int RoomNumber, RoomType RoomType) {
 
 }
-
-record BookingDataInsert(Booking Booking, Room Room) {  
+/*
+record CreateRoomAndBooking(int RoomNumber, RoomType RoomType, float NightPrice, bool IsAvailable, DateTime CheckInDate, DateTime CheckOutDate) {  
     
-}
+}*/
 
