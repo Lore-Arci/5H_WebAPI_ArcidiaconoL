@@ -28,10 +28,11 @@
 
 <!-- Sections -->
 <p align="center">
-  <a href="#">Key Features</a> •
+  <a href="#">About</a> •
   <a href="#">How To Use</a> •
   <a href="#">Download</a> •
   <a href="#">Credits</a> •
   <a href="#">Related</a> •
   <a href="#">License</a>
 </p>
+
