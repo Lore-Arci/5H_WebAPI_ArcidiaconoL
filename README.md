@@ -28,12 +28,9 @@
 
 <!-- Sections -->
 <p align="center">
-  <a href="#">About</a> •
-  <a href="#">How To Use</a> •
-  <a href="#">Download</a> •
-  <a href="#">Credits</a> •
-  <a href="#">Related</a> •
-  <a href="#">License</a>
+  <a href="#about">About</a> •
+  <a href="#how-to-use">How To Use</a> •
+  <a href="#license">License</a>
 </p>
 
 <div align="center">
