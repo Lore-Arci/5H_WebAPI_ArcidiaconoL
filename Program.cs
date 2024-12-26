@@ -39,6 +39,25 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+// READ Client
+app.MapGet("/clients", async (HotelContext db) => {
+    var clients = await db.Clients
+                    .ToListAsync(); 
+
+    return Results.Ok(clients);                 
+})
+.WithName("GetClients")
+.WithOpenApi(); 
+
+// POST Client
+app.MapPost("/client", async(Client client, HotelContext db) => {
+    await db.AddAsync(client); 
+    await db.SaveChangesAsync(); 
+    return Results.Created($"/client/{client.ClientId}", client); 
+}) 
+.WithName("CreateClient")
+.WithOpenApi(); 
+
 // READ Bookings
 app.MapGet("/bookings", async (HotelContext db) => {
     var bookings = await db.Bookings
