@@ -66,9 +66,14 @@ Below is the structure of the database, including its relations:
 - **Room FK**: Inserted in the `Bookings` table, referring to `RoomId` (PK).
 
 #### EF Relations:
-- `Client` has a navigation property:
+- `Client` and `Room` have a Collection Navigation Property:
   ```csharp
   public virtual ICollection<Booking> Bookings { get; set; }
+
+- `Booking` have Reference Navigation Properties:
+  ```csharp
+  public Room? Room { get; set; }
+  public Client? Client { get; set; }
 
 ---
 
