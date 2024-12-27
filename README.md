@@ -1,6 +1,6 @@
 <h1 align="center">
   <br>
-  <a href="#"><img src="https://github.com/Lore-Arci/HotelWebAPI/blob/main/Imgs/NET%20WebAPI.png?raw=true" alt=".NET WebAPI" width="100%"></a>
+  <a href="#"><img src="https://github.com/Lore-Arci/HotelWebAPI/blob/main/Imgs/NET%20WebAPI.png?raw=true" alt=".NET WebAPI" width="500"></a>
   <br>
   HotelProject WebAPI
   <br>
@@ -11,17 +11,17 @@
 <!-- Versions -->
 <p align="center">
   <a href="https://dotnet.microsoft.com/it-it/download/dotnet/8.0">
-    <img src="https://github.com/Lore-Arci/HotelWebAPI/blob/main/Imgs/DOTNETV.svg"
+    <img height="30" src="https://github.com/Lore-Arci/HotelWebAPI/blob/main/Imgs/DOTNETV.svg"
          alt=".NET">
   </a>
 
   <a href="https://dotnet.microsoft.com/it-it/download/dotnet/8.0">
-    <img src="https://github.com/Lore-Arci/HotelWebAPI/blob/main/Imgs/ASPNETCoreV.svg"
+    <img height="30" src="https://github.com/Lore-Arci/HotelWebAPI/blob/main/Imgs/ASPNETCoreV.svg"
          alt="ASPNET Core">
   </a>
 
   <a href="https://www.nuget.org/packages/Microsoft.EntityFrameworkCore">
-    <img src="https://github.com/Lore-Arci/HotelWebAPI/blob/main/Imgs/EFCoreV.svg"
+    <img height="30" src="https://github.com/Lore-Arci/HotelWebAPI/blob/main/Imgs/EFCoreV.svg"
          alt="ASPNET Core">
   </a>
 </p>
@@ -34,7 +34,7 @@
 </p>
 
 <div align="center">
-  <img src="https://github.com/Lore-Arci/HotelWebAPI/blob/main/Imgs/TryAPIGIF.gif" width="100%"></img> 
+  <img src="https://github.com/Lore-Arci/HotelWebAPI/blob/main/Imgs/TryAPIGIF.gif" width="500"></img> 
 </div>
 
 
