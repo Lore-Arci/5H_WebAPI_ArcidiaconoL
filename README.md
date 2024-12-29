@@ -130,14 +130,15 @@ To clone and run this application you'll need <a href="https://git-scm.com">Git<
 > ```bash
 > $ dotnet tool install --global dotnet-ef
 > ```
+**To go on with the installation, follow the "Details" section down below ⬇️ .**
 
 ## Details
 
-- A DTO record with PUT method has not been created as it was not efficient in its execution as it would meant to be. So they will not be partial has they would have to be as a DTO record. 
+- A DTO record with PUT method has not been created as it was not efficient in its execution as it would meant to be. So it will not be partial has it would has to be as a DTO record. In fact I've would had to put all the props of Client, and a lot of Booking entity. **However, both the DTO record and the POST method <i>are commented</i>**. 
 - The Entities of the Hotel db are empty so that you can you check the work of the SeedData class. 
 If you want to retry the SeedData db initialization you should open the db with a tool for editing Sqlite files and run the following commands: 
 ```sql
-# Making the enities empty
+# Making the entities empty
 DELETE FROM Clients
 DELETE FROM Rooms
 DELETE FROM Bookings
