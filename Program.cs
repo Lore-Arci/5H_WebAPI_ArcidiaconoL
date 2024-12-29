@@ -39,26 +39,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-// READ Client
-app.MapGet("/clients", async (HotelContext db) => {
-    var clients = await db.Clients
-                    .ToListAsync(); 
-
-    return Results.Ok(clients);                 
-})
-.WithName("GetClients")
-.WithOpenApi(); 
-
-// POST Client
-app.MapPost("/client", async(Client client, HotelContext db) => {
-    await db.AddAsync(client); 
-    await db.SaveChangesAsync(); 
-    return Results.Created($"/client/{client.ClientId}", client); 
-}) 
-.WithName("CreateClient")
-.WithOpenApi(); 
-
-// READ Bookings
+// READ Bookings (GET)
 app.MapGet("/bookings", async (HotelContext db) => {
     var bookings = await db.Bookings
                     .Include(p => p.Room)
@@ -71,7 +52,7 @@ app.MapGet("/bookings", async (HotelContext db) => {
 .WithOpenApi(); 
 
 
-// READ Filtered
+// READ Room (GET Filtered)
 app.MapGet("/room/{roomType:int}", async (RoomType roomType, HotelContext db) => {
     if(!Enum.IsDefined(typeof(RoomType), roomType)) return Results.BadRequest("Room type not valid."); 
 
@@ -84,7 +65,7 @@ app.MapGet("/room/{roomType:int}", async (RoomType roomType, HotelContext db) =>
 .WithName("GetAvaibleRooms")
 .WithOpenApi(); 
 
-// Delete client
+// Delete client (DELETE)
 app.MapDelete("/clients/{id:int}", async (int id, HotelContext db) => {
     var client = await db.Clients.FindAsync(id); 
     if(client is null) return Results.NotFound(); 
@@ -98,14 +79,14 @@ app.MapDelete("/clients/{id:int}", async (int id, HotelContext db) => {
 .WithName("DeleteClient")
 .WithOpenApi(); 
 
+// Modifying Room (PUT)
+app.MapPut("/rooms/{id:int}", async (int id, Room room, HotelContext db) => {
+    var roomReturned = await db.Rooms.FindAsync(id); 
+    if(roomReturned is null) return Results.NotFound(); 
 
-// Modifying Booking
-app.MapPut("/bookings/{id:int}", async (int id, Booking booking, HotelContext db) => {
-    var bookingReturned = await db.Bookings.FindAsync(id); 
-    if(bookingReturned is null) return Results.NotFound(); 
-
-    bookingReturned.CheckInDate = booking.CheckInDate; 
-    bookingReturned.CheckOutDate = booking.CheckOutDate; 
+    roomReturned.IsAvailable = room.IsAvailable; 
+    roomReturned.NightPrice = room.NightPrice; 
+    roomReturned.RoomType = room.RoomType; 
 
     await db.SaveChangesAsync(); 
 
@@ -114,7 +95,7 @@ app.MapPut("/bookings/{id:int}", async (int id, Booking booking, HotelContext db
 .WithName("PutBookingsModifyng")
 .WithOpenApi(); 
 
-// READ record with DTO
+// READ record (DTO READ)
 app.MapGet("/booking", async (HotelContext db) => {
     // Takings bookings with even id
     var bookings = await db.Bookings
@@ -138,7 +119,7 @@ app.MapGet("/booking", async (HotelContext db) => {
 .WithName("GetRoomInfoResume")
 .WithOpenApi(); 
 
-// Creating Bookings and ROOM with DTO
+// Creating Bookings (POST DTO)
 /*
 app.MapPost("/booking_room", async (CreateRoomAndBooking createRoomAndBooking, HotelContext db) => {
     // Room that will be added to the booking
@@ -169,6 +150,7 @@ app.MapPost("/booking_room", async (CreateRoomAndBooking createRoomAndBooking, H
 .WithOpenApi(); 
 */
 
+// ERROR HANDLING
 // Middleware 1
 app.Use( async (context, next) => {
     try{

@@ -15,14 +15,14 @@ Accept: application/json
 
 ###
 
-PUT {{HotelWebAPI_HostAddress}}/bookings/12
+PUT {{HotelWebAPI_HostAddress}}/rooms/12
 Content-Type: application/json
 Accept: application/json
 
-{
-    "CheckInDate": "2024-12-18T00:00:20", 
-    "CheckOutDate": "2024-12-27T00:00:00", 
-    "TotalAmount": 20
+{   
+    "IsAvailable": false, 
+    "NightPrice": 500, 
+    "RoomType": "Double"
 }
 
 ###
