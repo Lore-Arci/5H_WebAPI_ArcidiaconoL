@@ -30,7 +30,8 @@
 <p align="center">
   <a href="#about">About</a> •
   <a href="#how-to-use">How To Use</a> •
-  <a href="#license">License</a>
+  <a href="#license">Details</a> •
+  <a href="#license">License</a> 
 </p>
 
 <div align="center">
@@ -129,6 +130,24 @@ To clone and run this application you'll need <a href="https://git-scm.com">Git<
 > ```bash
 > $ dotnet tool install --global dotnet-ef
 > ```
+
+## Details
+
+- A DTO record with PUT method has not been created as it was not efficient in its execution as it would meant to be. So they will not be partial has they would have to be as a DTO record. 
+- The Entities of the Hotel db are empty so that you can you check the work of the SeedData class. 
+If you want to retry the SeedData db initialization you should open the db with a tool for editing Sqlite files and run the following commands: 
+```sql
+# Making the enities empty
+DELETE FROM Clients
+DELETE FROM Rooms
+DELETE FROM Bookings
+
+# (Optional) Restarting the sequences of the entities (the id will be resetted to 1)
+DELETE FROM sqlite_sequence WHERE name = 'Clients';
+DELETE FROM sqlite_sequence WHERE name = 'Rooms';
+DELETE FROM sqlite_sequence WHERE name = 'Bookings';
+```
+
 
 ## License
 
