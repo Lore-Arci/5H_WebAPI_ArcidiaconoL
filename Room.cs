@@ -12,7 +12,7 @@ public class Room {
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public RoomType RoomType { get; set; }
     public float NightPrice { get; set; }
-    public bool IsAvailable { get; set; }
+    public bool IsAvaiable { get; set; }
     // Avoiding loop
     [JsonIgnore]
     public virtual ICollection<Booking> Bookings { get; set; }

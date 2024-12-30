@@ -5,22 +5,22 @@ Accept: application/json
 
 ###
 
-GET {{HotelWebAPI_HostAddress}}/room/0
+GET {{HotelWebAPI_HostAddress}}/room/1
 Accept: application/json
 
 ###
 
-DELETE {{HotelWebAPI_HostAddress}}/clients/4
+DELETE {{HotelWebAPI_HostAddress}}/bookings/7
 Accept: application/json
 
 ###
 
-PUT {{HotelWebAPI_HostAddress}}/rooms/3
+PUT {{HotelWebAPI_HostAddress}}/rooms/8
 Content-Type: application/json
 Accept: application/json
 
 {   
-    "IsAvailable": false, 
+    "IsAvaiable": false, 
     "NightPrice": 500, 
     "RoomType": "Double"
 }
@@ -37,7 +37,7 @@ Content-Type: application/json
 Accept: application/json
 
 {
-    "RoomNumber": 100, 
+    "RoomNumber": 98, 
     "RoomType": 0,
     "NightPrice": 200, 
     "IsAvaiable": true, 

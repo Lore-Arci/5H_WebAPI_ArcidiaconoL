@@ -53,37 +53,40 @@ app.MapGet("/bookings", async (HotelContext db) => {
 // READ Room (GET Filtered)
 app.MapGet("/room/{roomType:int}", async (RoomType roomType, HotelContext db) => {
     if(!Enum.IsDefined(typeof(RoomType), roomType)) return Results.BadRequest("Room type not valid."); 
+    
 
-    var avaiableBookings = await db.Rooms
+    var rooms = await db.Rooms
                             .Where(r => r.RoomType == roomType)
                             .ToListAsync(); 
 
-    return Results.Ok(avaiableBookings); 
+    if(rooms is null) return Results.NotFound();
+
+    return Results.Ok(rooms); 
 })
-.WithName("GetAvaibleRooms")
+.WithName("GetRoomsFiltered")
 .WithOpenApi(); 
 
-// Delete client (DELETE)
-app.MapDelete("/clients/{id:int}", async (int id, HotelContext db) => {
+// Delete booking (DELETE)
+app.MapDelete("/bookings/{id:int}", async (int id, HotelContext db) => {
     // Checking ID's validity
     if (id <= 0) {
         return Results.BadRequest(
             new { 
-                error = "Invalid client ID. Must be a positive number." 
+                error = "Invalid booking ID. Must be a positive number." 
             }
         );
     }
 
-    var client = await db.Clients.FindAsync(id); 
-    if(client is null) return Results.NotFound(); 
+    var booking = await db.Bookings.FindAsync(id); 
+    if(booking is null) return Results.NotFound(); 
 
-    db.Clients.Remove(client); 
+    db.Bookings.Remove(booking); 
 
     await db.SaveChangesAsync();
 
     return Results.NoContent(); 
 })
-.WithName("DeleteClient")
+.WithName("DeleteBooking")
 .WithOpenApi(); 
 
 // Modifying Room (PUT)
@@ -99,7 +102,7 @@ app.MapPut("/rooms/{id:int}", async (int id, Room room, HotelContext db) => {
     var roomReturned = await db.Rooms.FindAsync(id); 
     if(roomReturned is null) return Results.NotFound(); 
 
-    roomReturned.IsAvailable = room.IsAvailable; 
+    roomReturned.IsAvaiable = room.IsAvaiable; 
     roomReturned.NightPrice = room.NightPrice; 
     roomReturned.RoomType = room.RoomType; 
 
@@ -107,7 +110,7 @@ app.MapPut("/rooms/{id:int}", async (int id, Room room, HotelContext db) => {
 
     return Results.NoContent(); 
 })
-.WithName("PutBookingsModifyng")
+.WithName("PutRoomsModifyng")
 .WithOpenApi(); 
 
 // READ record (DTO READ)
@@ -131,7 +134,7 @@ app.MapGet("/booking", async (HotelContext db) => {
 
     return Results.Ok(vista); 
 })
-.WithName("GetRoomInfoResume")
+.WithName("GetBookingInfoResume")
 .WithOpenApi(); 
 
 // Creating Bookings (POST DTO)
@@ -146,9 +149,9 @@ app.MapPost("/booking_room", async (CreateRoomAndBooking createRoomAndBooking, H
         // Room that will be added to the booking
         var room = new Room{
             RoomNumber = createRoomAndBooking.RoomNumber, 
-            RoomType = createRoomAndBooking.RoomType, 
+            RoomType = (RoomType)createRoomAndBooking.RoomType, 
             NightPrice = createRoomAndBooking.NightPrice, 
-            IsAvailable = createRoomAndBooking.IsAvaiable
+            IsAvaiable = createRoomAndBooking.IsAvaiable
         };
 
         var booking = new Booking{
@@ -210,7 +213,7 @@ record BookingInfoResume(DateTime CheckInDate, DateTime CheckOut, string ClientN
 
 }
 
-record CreateRoomAndBooking(int RoomNumber, RoomType RoomType, float NightPrice, bool IsAvaiable, DateTime CheckInDate, DateTime CheckOutDate) {  
+record CreateRoomAndBooking(int RoomNumber, int RoomType, float NightPrice, bool IsAvaiable, DateTime CheckInDate, DateTime CheckOutDate) {  
     
 }
 
