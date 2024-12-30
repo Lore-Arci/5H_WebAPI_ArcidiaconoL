@@ -133,6 +133,12 @@ To clone and run this application you'll need <a href="https://git-scm.com">Git<
 **To go on with the set up, follow the "Details" section down below ⬇️ .**
 
 ## Details
+The filtered GET method accepts an integer instead of RoomType as it's a personalized type. 
+Those are the integers corrispondences with the enum values: 
+- Single -> 0
+- Double -> 1
+- Junior -> 2
+- Suite  -> 3
 
 The Entities of the Hotel db are empty so that you can you check the work of the SeedData class. 
 If you want to retry the SeedData db initialization you should open the db with a tool for editing Sqlite files and run the following commands: 
