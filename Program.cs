@@ -120,22 +120,27 @@ app.MapGet("/booking", async (HotelContext db) => {
 .WithOpenApi(); 
 
 // Creating Bookings (POST DTO)
-/*
 app.MapPost("/booking_room", async (CreateRoomAndBooking createRoomAndBooking, HotelContext db) => {
-    // Room that will be added to the booking
     try {
+        // Check if the RoomNumber already exists
+        var existingRoom = await db.Rooms.FirstOrDefaultAsync(r => r.RoomNumber == createRoomAndBooking.RoomNumber);
+        if (existingRoom != null) {
+            return Results.BadRequest(new { error = "Room with this RoomNumber already exists." });
+        }
+
+        // Room that will be added to the booking
         var room = new Room{
             RoomNumber = createRoomAndBooking.RoomNumber, 
             RoomType = createRoomAndBooking.RoomType, 
             NightPrice = createRoomAndBooking.NightPrice, 
-            IsAvailable = createRoomAndBooking.IsAvailable
+            IsAvailable = createRoomAndBooking.IsAvaiable
         };
-    
+
         var booking = new Booking{
             CheckInDate = createRoomAndBooking.CheckInDate, 
             CheckOutDate = createRoomAndBooking.CheckOutDate,
-            // Total amount eaquals to ckeckin - checkuot dates (in days), * nightprice
-            TotalAmount = (createRoomAndBooking.CheckOutDate - createRoomAndBooking.CheckOutDate).Days * createRoomAndBooking.NightPrice,
+            // Total amount equals to check-in - check-out dates (in days), * nightprice
+            TotalAmount = (createRoomAndBooking.CheckOutDate - createRoomAndBooking.CheckInDate).Days * createRoomAndBooking.NightPrice,
             Room = room
         };
 
@@ -147,8 +152,7 @@ app.MapPost("/booking_room", async (CreateRoomAndBooking createRoomAndBooking, H
     }
 })
 .WithName("PostBookingAndRoom")
-.WithOpenApi(); 
-*/
+.WithOpenApi();
 
 // ERROR HANDLING
 // Middleware 1
@@ -190,8 +194,8 @@ app.Run();
 record BookingInfoResume(DateTime CheckInDate, DateTime CheckOut, string ClientName, string ClientSurname, int RoomNumber, RoomType RoomType) {
 
 }
-/*
-record CreateRoomAndBooking(int RoomNumber, RoomType RoomType, float NightPrice, bool IsAvailable, DateTime CheckInDate, DateTime CheckOutDate) {  
+
+record CreateRoomAndBooking(int RoomNumber, RoomType RoomType, float NightPrice, bool IsAvaiable, DateTime CheckInDate, DateTime CheckOutDate) {  
     
-}*/
+}
 

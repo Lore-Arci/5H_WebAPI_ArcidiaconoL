@@ -10,12 +10,12 @@ Accept: application/json
 
 ###
 
-DELETE {{HotelWebAPI_HostAddress}}/clients/6
+DELETE {{HotelWebAPI_HostAddress}}/clients/4
 Accept: application/json
 
 ###
 
-PUT {{HotelWebAPI_HostAddress}}/rooms/12
+PUT {{HotelWebAPI_HostAddress}}/rooms/3
 Content-Type: application/json
 Accept: application/json
 
@@ -29,5 +29,20 @@ Accept: application/json
 
 GET {{HotelWebAPI_HostAddress}}/booking/
 Accept: application/json
+
+###
+
+POST {{HotelWebAPI_HostAddress}}/booking_room/
+Content-Type: application/json
+Accept: application/json
+
+{
+    "RoomNumber": 100, 
+    "RoomType": 0,
+    "NightPrice": 200, 
+    "IsAvaiable": true, 
+    "CheckInDate": "2021-06-01",
+    "CheckoutDate": "2021-06-10"
+}
 
 ###
