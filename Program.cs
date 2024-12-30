@@ -1,8 +1,6 @@
-using System.Reflection.Metadata.Ecma335;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualBasic;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -67,6 +65,15 @@ app.MapGet("/room/{roomType:int}", async (RoomType roomType, HotelContext db) =>
 
 // Delete client (DELETE)
 app.MapDelete("/clients/{id:int}", async (int id, HotelContext db) => {
+    // Checking ID's validity
+    if (id <= 0) {
+        return Results.BadRequest(
+            new { 
+                error = "Invalid client ID. Must be a positive number." 
+            }
+        );
+    }
+
     var client = await db.Clients.FindAsync(id); 
     if(client is null) return Results.NotFound(); 
 
@@ -81,6 +88,14 @@ app.MapDelete("/clients/{id:int}", async (int id, HotelContext db) => {
 
 // Modifying Room (PUT)
 app.MapPut("/rooms/{id:int}", async (int id, Room room, HotelContext db) => {
+    // Checking ID's validity
+    if (id <= 0) {
+        return Results.BadRequest(
+            new { 
+                error = "Invalid room ID. Must be a positive number." 
+            }
+        );
+    }
     var roomReturned = await db.Rooms.FindAsync(id); 
     if(roomReturned is null) return Results.NotFound(); 
 
