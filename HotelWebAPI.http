@@ -10,12 +10,12 @@ Accept: application/json
 
 ###
 
-DELETE {{HotelWebAPI_HostAddress}}/bookings/7
+DELETE {{HotelWebAPI_HostAddress}}/bookings/4
 Accept: application/json
 
 ###
 
-PUT {{HotelWebAPI_HostAddress}}/rooms/8
+PUT {{HotelWebAPI_HostAddress}}/rooms/4
 Content-Type: application/json
 Accept: application/json
 
@@ -37,7 +37,7 @@ Content-Type: application/json
 Accept: application/json
 
 {
-    "RoomNumber": 98, 
+    "RoomNumber": 100, 
     "RoomType": 0,
     "NightPrice": 200, 
     "IsAvaiable": true, 
