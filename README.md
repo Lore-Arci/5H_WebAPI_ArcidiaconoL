@@ -34,10 +34,6 @@
   <a href="#license">License</a> 
 </p>
 
-<div align="center">
-  <img src="https://github.com/Lore-Arci/HotelWebAPI/blob/main/Imgs/TryAPIGIF.gif" width="500"></img> 
-</div>
-
 
 ## About
 
@@ -115,14 +111,10 @@ The code for initializing the seed data looks like this:
 To clone and run this application you'll need <a href="https://git-scm.com">Git</a> and some packages about <b>Entity Framework Core</b>. 
 ```bash
   # Clone the repo
-  $ git clone https://github.com/Lore-Arci/HotelWebAPI.git
+  $ git clone https://github.com/Lore-Arci/5H_WebAPI_ArcidiaconoL.git
 
   # Go into the repo
-  cd HotelWebAPI
-
-  # Install the EFCore packages
-  $ dotnet add package Microsoft.EntityFrameworkCore.Design
-  $ dotnet add package Microsoft.EntityFrameworkCore.SQLite
+  cd 5H_WebAPI_ArcidiaconoL
 ```
 
 > **Note**
