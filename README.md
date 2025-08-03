@@ -37,7 +37,7 @@
 
 ## About
 
-**HotelProject** is a simple C# WebAPI-based project designed to help understand how a C# WebAPI works. It fetches data from a SQLite database that contains dummy data. If the database is empty, the data is inserted as **SeedData**.
+**HotelProject** is a simple C# WebAPI-based project designed to help understand how a C# WebAPI works. It fetches data from a SQLite database that contains dummy data. If the database is empty, the data are inserted as **SeedData**.
 
 ---
 
@@ -76,7 +76,7 @@ Below is the structure of the database, including its relations:
 
 #### Database Auto-Population with SeedData
 
-The database is automatically populated when the application is run, if any of the tables are empty. This behavior is managed by the `SeedData` class, which initializes data by using a `ServiceProvider` passed to the database options.
+The database is automatically populated when the application runs, if any of the tables are empty. This behavior is managed by the `SeedData` class, which initializes data by using a `ServiceProvider` passed to the database options.
 
 #### How It Works:
 
